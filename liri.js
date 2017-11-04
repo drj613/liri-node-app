@@ -64,15 +64,12 @@ var liriCommand = process.argv[2];
         }   
 
         var params = song;
-        //throwing "TypeError: Cannot read property 'name' of undefined"
         spotify.search({type: "track", query: params}, function(err, data){
-            console.log(data);
-            // console.log(data.tracks);
-            // console.log(data.tracks.items[1]);
-            
-            if (data.tracks)
-            var numToLoop 
-            for (var i=0;i<5; i++){
+            var numToLoop = 5;
+            if (data.tracks.length < 5){
+                numToLoop = data.tracks.length;
+            }
+            for (var i=0;i<numToLoop; i++){
                 var iSongObj = data.tracks.items[i];
                 var title = iSongObj.name,
                     album = iSongObj.album.name,
@@ -80,15 +77,14 @@ var liriCommand = process.argv[2];
                     previewUrl = iSongObj.preview_url;
 
                 var simpResults = 
-                    "Song: " + songInfo.name + "\r\n" +
-                    "Album: " + songInfo.album.name + "\r\n" +
-                    "Artist: " + songInfo.artists[0].name + "\r\n" +
-                    "Preview URL: " + songInfo[i].preview_url + "\r\n" +
+                    "Song: " + title + "\r\n" +
+                    "Album: " + album + "\r\n" +
+                    "Artist: " + artist + "\r\n" +
+                    "Preview URL: " + previewUrl + "\r\n" +
                     "-----------------------------------------------";
-
-                if(songInfo[i] != undefined) {
-                    console.log(simpResults);
-                }
+                
+                console.log(simpResults);
+                log(simpResults);
             }
         });      
     } 
@@ -125,8 +121,9 @@ var liriCommand = process.argv[2];
             if (error){
                 console.log("ERROR " + error);
             } else {
-                doItResults = data.split(",");
-                spotifyThisSong(doItResults[0], doItResults[1]);
+                var doItResults = data.split(",");
+                console.log(doItResults);
+                // spotifyThisSong(doItResults[1]);
             }
         })
     }
