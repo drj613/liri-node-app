@@ -19,7 +19,7 @@ var liriCommand = process.argv[2];
             '2: spotify-this-song \'song-name\'' + '\r\n' +
             '3: movie-this \'movie-title\'' + '\r\n' +
             '4: do-what-it-says' + '\r\n' +
-            'Make sure you put the movie title or song name in quotes'
+            'Make sure you put the search query in quotes'
         );
     }
 
@@ -64,27 +64,34 @@ var liriCommand = process.argv[2];
         }   
 
         var params = song;
+        //throwing "TypeError: Cannot read property 'name' of undefined"
+        spotify.search({type: "track", query: params}, function(err, data){
+            console.log(data);
+            // console.log(data.tracks);
+            // console.log(data.tracks.items[1]);
+            
+            if (data.tracks)
+            var numToLoop 
+            for (var i=0;i<5; i++){
+                var iSongObj = data.tracks.items[i];
+                var title = iSongObj.name,
+                    album = iSongObj.album.name,
+                    artist = iSongObj.artists[0].name,
+                    previewUrl = iSongObj.preview_url;
 
-        // spotify.search({type: "track", query: params}, function(err, data){
-        //     if(err){
-        //         console.log("ERROR WITH SPOTIFY CALL! "+ err);
-        //     } else {
-        //         var songInfo = data.tracks.items;
-        //         for(var i =0; i<5; i++){
-        //             if (songInfo[i] != undefined){
-        //                 var spotifyResults = 
-        //                 "Song: " + songInfo.name + "\r\n" +
-        //                 "Album: " + songInfo.album.name + "\r\n" +
-        //                 "Artist: " + songInfo.artists[0].name + "\r\n" +
-        //                 "Preview URL: " + songInfo[i].preview_url + "\r\n" +
-        //                 "-----------------------------------------------";
-        //                 console.log(spotifyResults);
-        //                 log(spotifyResults);
-        //             }
-        //         }
-        //     }
-        // });
-    }
+                var simpResults = 
+                    "Song: " + songInfo.name + "\r\n" +
+                    "Album: " + songInfo.album.name + "\r\n" +
+                    "Artist: " + songInfo.artists[0].name + "\r\n" +
+                    "Preview URL: " + songInfo[i].preview_url + "\r\n" +
+                    "-----------------------------------------------";
+
+                if(songInfo[i] != undefined) {
+                    console.log(simpResults);
+                }
+            }
+        });      
+    } 
 
     function movieThis(){
         var movieTitle = process.argv[3];
